@@ -1,4 +1,4 @@
-Curso Data Anlytics UC 2025
+Curso Data Analytics UC 2025
 
 Proyecto final de visualización de datos en Power BI:
   - BBDD estación meteorológica
