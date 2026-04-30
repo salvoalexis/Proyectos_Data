@@ -1,0 +1,142 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "8533274d19ee02b30818",
+  "position": {
+    "x": 9.3772893772893759,
+    "y": 0,
+    "z": 0,
+    "height": 279.75579975579973,
+    "width": 1183.101343101343,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Boletín de frutas y hortalizas"
+                    }
+                  },
+                  "Property": "Calidad"
+                }
+              },
+              "queryRef": "Boletín de frutas y hortalizas.Calidad",
+              "nativeQueryRef": "Calidad"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Boletín de frutas y hortalizas"
+                    }
+                  },
+                  "Property": "Origen"
+                }
+              },
+              "queryRef": "Boletín de frutas y hortalizas.Origen",
+              "nativeQueryRef": "Origen"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Boletín de frutas y hortalizas"
+                        }
+                      },
+                      "Property": "Precio máximo"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Boletín de frutas y hortalizas.Precio máximo)",
+              "nativeQueryRef": "Suma de Precio máximo"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Boletín de frutas y hortalizas"
+                        }
+                      },
+                      "Property": "Precio mínimo"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Boletín de frutas y hortalizas.Precio mínimo)",
+              "nativeQueryRef": "Suma de Precio mínimo"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Boletín de frutas y hortalizas"
+                        }
+                      },
+                      "Property": "Precio promedio ponderado"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Boletín de frutas y hortalizas.Precio promedio ponderado)",
+              "nativeQueryRef": "Suma de Precio promedio ponderado"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Boletín de frutas y hortalizas"
+                    }
+                  },
+                  "Property": "Unidad de comercialización"
+                }
+              },
+              "queryRef": "Boletín de frutas y hortalizas.Unidad de comercialización",
+              "nativeQueryRef": "Unidad de comercialización"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Boletín de frutas y hortalizas"
+                        }
+                      },
+                      "Property": "Volumen"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Boletín de frutas y hortalizas.Volumen)",
+              "nativeQueryRef": "Suma de Volumen"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

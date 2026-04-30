@@ -1,0 +1,30 @@
+model Model
+	culture: es-CL
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-CL
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+/// Errores en las consultas cargadas en 29-08-2025 18:27:54.
+queryGroup 'Errores en las consultas: 29-08-2025 18:27:54'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation PBI_QueryOrder = ["El Tambo","Errores en El Tambo","HRyViento","Ubicación El Tambo","Boletín de frutas y hortalizas","Cuadro"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table 'El Tambo'
+ref table DateTableTemplate_6485d82d-f2f9-43a8-8498-30add0b19b65
+ref table LocalDateTable_025a6f97-8d5e-4e13-b643-ef880e824394
+ref table HRyViento
+ref table 'Ubicación El Tambo'
+ref table 'Boletín de frutas y hortalizas'
+ref table Cuadro
+ref table LocalDateTable_f39b2189-51f8-4f61-8d4c-e72ff9cd05fb
+
+ref cultureInfo es-CL
+

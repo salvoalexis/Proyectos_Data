@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Estacion_meteorologica"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9e72db57-7cb0-46e7-bc38-64bfb3cb1cfc"
+  }
+}

@@ -1,0 +1,14 @@
+relationship 99624a35-e458-457c-aebb-677a3f91ce65
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'El Tambo'.'Tiempo UTC-4'
+	toColumn: LocalDateTable_025a6f97-8d5e-4e13-b643-ef880e824394.Date
+
+relationship 96bc5b4a-ff39-ba94-0db1-4b3f4a86c76d
+	fromColumn: HRyViento.'Tiempo UTC-4'
+	toColumn: 'El Tambo'.'Tiempo UTC-4'
+
+relationship e916bda8-baca-4640-92cd-6076805fab72
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Cuadro.Periodo
+	toColumn: LocalDateTable_f39b2189-51f8-4f61-8d4c-e72ff9cd05fb.Date
+

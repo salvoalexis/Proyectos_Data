@@ -1,0 +1,122 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "39d807a602541e8d0b8d",
+  "position": {
+    "x": 0,
+    "y": 84.54685099846391,
+    "z": 0,
+    "height": 397.17357910906304,
+    "width": 544.63901689708143,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "El Tambo"
+                    }
+                  },
+                  "Property": "Tiempo UTC-4"
+                }
+              },
+              "queryRef": "El Tambo.Tiempo UTC-4",
+              "nativeQueryRef": "Tiempo UTC-4",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "El Tambo"
+                        }
+                      },
+                      "Property": "Temperatura del Aire Máxima ºC"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "Sum(El Tambo.Temperatura del Aire Máxima ºC)",
+              "nativeQueryRef": "Máx. de Temperatura del Aire Máxima ºC"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "El Tambo"
+                        }
+                      },
+                      "Property": "Temperatura del Aire Mínima ºC"
+                    }
+                  },
+                  "Function": 3
+                }
+              },
+              "queryRef": "Sum(El Tambo.Temperatura del Aire Mínima ºC)",
+              "nativeQueryRef": "Mín. de Temperatura del Aire Mínima ºC"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "El Tambo"
+                  }
+                },
+                "Property": "Tiempo UTC-4"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 9,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(EL Tambo.Temperatura del Aire ºC)"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

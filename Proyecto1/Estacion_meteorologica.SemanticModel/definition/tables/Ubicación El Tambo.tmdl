@@ -1,0 +1,36 @@
+table 'Ubicación El Tambo'
+	lineageTag: cd72667c-50f7-469f-8565-62d0317562a8
+
+	column Latitud
+		dataType: double
+		lineageTag: 1235c61a-2350-4e42-a674-4fb34b764312
+		summarizeBy: sum
+		sourceColumn: Latitud
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Longuitud
+		dataType: double
+		lineageTag: 694cd44f-19bf-44a3-acd7-71eb1e171da3
+		summarizeBy: sum
+		sourceColumn: Longuitud
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Ubicación El Tambo' = m
+		mode: import
+		source =
+				let
+				    Origen = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W0jU20TExV9JR0jU30LG0UIqNBQA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Latitud = _t, Longuitud = _t]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(Origen,{{"Latitud", type number}, {"Longuitud", type number}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

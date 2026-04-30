@@ -1,0 +1,43 @@
+table Cuadro
+	lineageTag: d232adce-a36c-4b5e-b1c8-c8154ad4925f
+
+	column Periodo
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: de9e74a5-44e4-48cc-bb42-7d66aa09b523
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		variation Variación
+			isDefault
+			relationship: e916bda8-baca-4640-92cd-6076805fab72
+			defaultHierarchy: LocalDateTable_f39b2189-51f8-4f61-8d4c-e72ff9cd05fb.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column '1. Dólar observado'
+		dataType: string
+		lineageTag: cbecc503-e6e1-4a59-a2ef-b798fa1b1132
+		summarizeBy: none
+		sourceColumn: 1. Dólar observado
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Cuadro = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents("C:\Users\busca\Downloads\DOLAR_OBS_ADO.xlsx"), null, true),
+				    Cuadro_Sheet = Origen{[Item="Cuadro",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Cuadro_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Tipos de cambio (pesos por dólar)", type text}, {"", type any}}),
+				    #"Filas superiores quitadas" = Table.Skip(#"Tipo cambiado",12),
+				    #"Encabezados promovidos1" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Encabezados promovidos1",{{"Periodo", type datetime}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

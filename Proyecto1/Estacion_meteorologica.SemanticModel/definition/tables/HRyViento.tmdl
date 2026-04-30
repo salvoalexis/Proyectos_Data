@@ -1,0 +1,63 @@
+table HRyViento
+	lineageTag: afd3e01e-a1fa-49d6-9a9f-3037069b515e
+
+	column 'Tiempo UTC-4'
+		dataType: dateTime
+		formatString: dd-mm-yyyy
+		lineageTag: 37952195-6c2a-48cf-b4f2-91b2647411f0
+		summarizeBy: none
+		sourceColumn: Tiempo UTC-4
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Humedad Relativa %'
+		dataType: double
+		lineageTag: 5ca46422-e1c2-4422-ae6b-9753f2ef8a6b
+		summarizeBy: sum
+		sourceColumn: Humedad Relativa %
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Velocidad de Viento km/h'
+		dataType: double
+		lineageTag: 9d6cab9d-068e-4a96-ad3d-a3efde778484
+		summarizeBy: sum
+		sourceColumn: Velocidad de Viento km/h
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Plaga = IF(AND(HRyViento[Humedad Relativa %]>50, HRyViento[Velocidad de Viento km/h]>13),"Alerta","Normal")
+		lineageTag: 5d523a14-53e5-42ba-94ee-7262e381a11b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition HRyViento = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents("C:\Users\busca\Downloads\agrometeorologia-20250829193118.xlsx"), null, true),
+				    datos_Sheet = Origen{[Item="datos",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(datos_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"www.agrometeorologia.cl", type text}, {"Column2", type any}, {"Column3", type any}, {"Column4", type any}, {"Column5", type any}}),
+				    #"Filas superiores quitadas" = Table.Skip(#"Tipo cambiado",4),
+				    #"Encabezados promovidos1" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Encabezados promovidos1",{{"Tiempo UTC-4", type date}, {"Humedad Relativa %", type number}, {"Velocidad de Viento km/h", type number}, {"Humedad Relativa % de datos ", Int64.Type}, {"Velocidad de Viento % de datos ", Int64.Type}}),
+				    #"Filas inferiores quitadas" = Table.RemoveLastN(#"Tipo cambiado1",2),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Filas inferiores quitadas",{"Humedad Relativa % de datos ", "Velocidad de Viento % de datos "}),
+				    #"Filas inferiores quitadas1" = Table.RemoveLastN(#"Columnas quitadas",2)
+				in
+				    #"Filas inferiores quitadas1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

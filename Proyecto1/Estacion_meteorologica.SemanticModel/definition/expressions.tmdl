@@ -1,0 +1,24 @@
+expression 'Errores en El Tambo' =
+		let
+		Origen = #"El Tambo",
+		  #"Errores de coincidencia detectados" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Origen, Table.ColumnsOfType(Origen, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "El tipo del valor no coincide con el tipo de la columna.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Origen, pairs),
+		  #"Índice agregado" = Table.AddIndexColumn(#"Errores de coincidencia detectados", "Número de fila" ,1),
+		  #"Conservar errores" = Table.SelectRowsWithErrors(#"Índice agregado", {"Tiempo UTC-4", "Temperatura del Aire Mínima ºC", "Temperatura del Aire Máxima ºC", "Precipitación Acumulada mm"}),
+		  #"Columnas reordenadas" = Table.ReorderColumns(#"Conservar errores", {"Número de fila", "Tiempo UTC-4", "Temperatura del Aire Mínima ºC", "Temperatura del Aire Máxima ºC", "Precipitación Acumulada mm"}),
+		    #"Filas superiores quitadas" = Table.Skip(#"Columnas reordenadas",2)
+		in
+		    #"Filas superiores quitadas"
+	lineageTag: 8799ee25-d2e4-4941-bc97-fa6c7c542182
+	queryGroup: 'Errores en las consultas: 29-08-2025 18:27:54'
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

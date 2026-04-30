@@ -1,0 +1,57 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "b540d012740d9d5ebcb0",
+  "position": {
+    "x": 640.98310291858684,
+    "y": 546.605222734255,
+    "z": 4000,
+    "height": 157.29646697388634,
+    "width": 251.67434715821815,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "HRyViento"
+                    }
+                  },
+                  "Property": "Plaga"
+                }
+              },
+              "queryRef": "HRyViento.Plaga",
+              "nativeQueryRef": "Plaga"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "HRyViento"
+                        }
+                      },
+                      "Property": "Tiempo UTC-4"
+                    }
+                  },
+                  "Function": 2
+                }
+              },
+              "queryRef": "HRyViento.Tiempo UTC-4",
+              "nativeQueryRef": "Recuento de Tiempo UTC-4"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

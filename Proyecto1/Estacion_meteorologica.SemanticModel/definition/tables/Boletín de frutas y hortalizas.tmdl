@@ -1,0 +1,81 @@
+table 'Boletín de frutas y hortalizas'
+	lineageTag: 755120f9-296b-4997-a911-a8a939cb8422
+
+	column Calidad
+		dataType: string
+		lineageTag: c3723b2f-016b-4741-ba94-d5172dd86c3f
+		summarizeBy: none
+		sourceColumn: Calidad
+
+		annotation SummarizationSetBy = Automatic
+
+	column Volumen
+		dataType: int64
+		formatString: 0
+		lineageTag: b149fc1c-ce74-4a71-b430-cfa6165e9577
+		summarizeBy: sum
+		sourceColumn: Volumen
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Precio mínimo'
+		dataType: int64
+		formatString: 0
+		lineageTag: f32452fd-c37a-4284-b760-0c1d94d7b1f5
+		summarizeBy: sum
+		sourceColumn: Precio mínimo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Precio máximo'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2847aefa-60a8-4171-90a0-c9f1b5d23509
+		summarizeBy: sum
+		sourceColumn: Precio máximo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Precio promedio ponderado'
+		dataType: int64
+		formatString: 0
+		lineageTag: d053541d-a7e1-4657-bdc5-851d622b4320
+		summarizeBy: sum
+		sourceColumn: Precio promedio ponderado
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Unidad de comercialización'
+		dataType: string
+		lineageTag: 4f89208d-b4a6-4152-95e1-d05212163076
+		summarizeBy: none
+		sourceColumn: Unidad de comercialización
+
+		annotation SummarizationSetBy = Automatic
+
+	column Origen
+		dataType: string
+		lineageTag: ef942496-8b51-40ba-8896-e2156c360304
+		summarizeBy: none
+		sourceColumn: Origen
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Boletín de frutas y hortalizas' = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents("C:\Users\busca\Downloads\precios-y-volúmenes-diarios-de-frutas-y-hortalizas-en-mercados-mayoristas-del-país.xlsx"), null, true),
+				    #"Boletín de frutas y hortalizas1" = Origen{[Name="Boletín de frutas y hortalizas"]}[Data],
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Boletín de frutas y hortalizas1",{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type text}}),
+				    #"Filas superiores quitadas" = Table.Skip(#"Tipo cambiado",3),
+				    #"Filas inferiores quitadas" = Table.RemoveLastN(#"Filas superiores quitadas",1),
+				    #"Encabezados promovidos" = Table.PromoteHeaders(#"Filas inferiores quitadas", [PromoteAllScalars=true]),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"Calidad", type text}, {"Volumen", Int64.Type}, {"Precio mínimo", Int64.Type}, {"Precio máximo", Int64.Type}, {"Precio promedio ponderado", Int64.Type}, {"Unidad de comercialización", type text}, {"Origen", type text}})
+				in
+				    #"Tipo cambiado1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

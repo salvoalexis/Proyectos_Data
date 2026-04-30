@@ -1,0 +1,93 @@
+table 'El Tambo'
+	lineageTag: 7f6e82ed-1f2c-4e30-94af-871c67d08c01
+
+	measure 'Registros T°' = COUNTROWS('El Tambo')
+		formatString: 0
+		lineageTag: f6953796-06ec-4527-90f5-7856175e151e
+
+	measure 'N° Heladas 2024' = CALCULATE('El Tambo'[Registros T°], 'El Tambo'[Temperatura del Aire Mínima ºC]<=0, 'El Tambo'[Tiempo UTC-4])
+		formatString: 0
+		lineageTag: fc9ceb27-6b73-49ef-8cdd-002c5e9cdcaa
+
+	measure Precipitación = SUM('El Tambo'[Precipitación Acumulada mm])
+		lineageTag: 9667d033-501a-444f-b179-6f8067568b31
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Tiempo UTC-4'
+		dataType: dateTime
+		formatString: dd-mm-yyyy
+		lineageTag: f3e541d5-05b8-4a4a-b9eb-cda323989d54
+		summarizeBy: none
+		sourceColumn: Tiempo UTC-4
+
+		variation Variación
+			isDefault
+			relationship: 99624a35-e458-457c-aebb-677a3f91ce65
+			defaultHierarchy: LocalDateTable_025a6f97-8d5e-4e13-b643-ef880e824394.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Temperatura del Aire Mínima ºC'
+		dataType: double
+		lineageTag: 4604a8f4-7f91-4f19-adbb-30aa40b0899d
+		summarizeBy: sum
+		sourceColumn: Temperatura del Aire Mínima ºC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Temperatura del Aire Máxima ºC'
+		dataType: double
+		lineageTag: fa324176-2e99-4561-905c-d39b313543d9
+		summarizeBy: sum
+		sourceColumn: Temperatura del Aire Máxima ºC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Precipitación Acumulada mm'
+		dataType: double
+		formatString: 0.0
+		lineageTag: 487ed668-3bfd-4770-a265-f1432fc565b2
+		summarizeBy: sum
+		sourceColumn: Precipitación Acumulada mm
+
+		annotation SummarizationSetBy = User
+
+	column 'Temperatura Promedio' = 'El Tambo'[Temperatura del Aire Máxima ºC]- 'El Tambo'[Temperatura del Aire Mínima ºC]
+		lineageTag: 9fd0bdd3-9f8b-40c1-b711-67f4bd0b365e
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'El Tambo' = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents("C:\Users\busca\Downloads\agrometeorologia-20250829182645.xlsx"), null, true),
+				    datos_Sheet = Origen{[Item="datos",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(datos_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"www.agrometeorologia.cl", type text}, {"Column2", type any}, {"Column3", type any}, {"Column4", type any}, {"Column5", type any}, {"Column6", type any}, {"Column7", type any}}),
+				    #"Columnas quitadas" = Table.RemoveColumns(#"Tipo cambiado",{"Column5", "Column6", "Column7"}),
+				    #"Filas superiores quitadas" = Table.Skip(#"Columnas quitadas",4),
+				    #"Encabezados promovidos1" = Table.PromoteHeaders(#"Filas superiores quitadas", [PromoteAllScalars=true]),
+				    #"Tipo cambiado1" = Table.TransformColumnTypes(#"Encabezados promovidos1",{{"Tiempo UTC-4", type date}, {"Temperatura del Aire Mínima ºC", type number}, {"Temperatura del Aire Máxima ºC", type number}, {"Precipitación Acumulada mm", type number}}),
+				    #"Valor reemplazado" = Table.ReplaceValue(#"Tipo cambiado1",-40,5.25,Replacer.ReplaceValue,{"Temperatura del Aire Mínima ºC"}),
+				    #"Filas inferiores quitadas" = Table.RemoveLastN(#"Valor reemplazado",3),
+				    #"Filas inferiores quitadas1" = Table.RemoveLastN(#"Filas inferiores quitadas",1)
+				in
+				    #"Filas inferiores quitadas1"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

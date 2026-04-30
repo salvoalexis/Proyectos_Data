@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "6deeeacbe0dc0c55ad75",
+  "position": {
+    "x": 934.60317460317458,
+    "y": 515.75091575091574,
+    "z": 6000,
+    "height": 189.10866910866909,
+    "width": 345.39682539682536,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "map",
+    "query": {
+      "queryState": {
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ubicación El Tambo"
+                    }
+                  },
+                  "Property": "Longuitud"
+                }
+              },
+              "queryRef": "Ubicación El Tambo.Longuitud",
+              "nativeQueryRef": "Longuitud"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Ubicación El Tambo"
+                    }
+                  },
+                  "Property": "Latitud"
+                }
+              },
+              "queryRef": "Ubicación El Tambo.Latitud",
+              "nativeQueryRef": "Latitud"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "f18689c123366aa0d7d5",
+  "position": {
+    "x": 553.26007326007323,
+    "y": 120.34188034188033,
+    "z": 2000,
+    "height": 361.025641025641,
+    "width": 726.73992673992666,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "El Tambo"
+                    }
+                  },
+                  "Property": "Tiempo UTC-4"
+                }
+              },
+              "queryRef": "El Tambo.Tiempo UTC-4",
+              "nativeQueryRef": "Tiempo UTC-4",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "El Tambo"
+                        }
+                      },
+                      "Property": "Temperatura Promedio"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Sum(El Tambo.Temperatura Promedio)",
+              "nativeQueryRef": "Promedio de Temperatura Promedio"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "El Tambo"
+                  }
+                },
+                "Property": "Tiempo UTC-4"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
