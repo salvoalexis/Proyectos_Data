@@ -1,0 +1,6 @@
+# Power BI
+*.pbix.backup
+*.pbitx
+*.exe
+.vscode/
+node_modules/
